@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Lista Todo{% endblock %}
+{% block page_title %}Lista Todo (sola lettura){% endblock %}
+{% block content %}
+<a href="/newTask">inserisci nuova task</a>
+{% if todos|length == 0 %}
+<p class="text-muted">Nessun todo nel database.</p>
+{% else %}
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Descrizione</th>
+        <th>Priorita</th>
+        <th>Scadenza</th>
+        <th>Eseguito il</th>
+        <th>Eseguito il</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in todos %}
+      <tr>
+        <td>{{ t.id }}</td>
+        <td>{{ t.description }}</td>
+        <td>{{ t.priority }}</td>
+        <td>{{ t.before_at or "-" }}</td>
+        <td>{{ t.executed_at or "-" }}</td>
+        <td>
+          {% if t.executed_at is none %}
+          <form method="POST" action="{{ url_for('esegui', id=t.id) }}" style="display: inline;">
+            <button type="submit">⬜</button>
+          </form>
+          {% else %}
+          ✅
+          {% endif %}
+          <form method="POST" action="{{ url_for('eliminaTask', id=t.id) }}" style="display: inline;">
+            <button type="submit">🗑️</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% for i in range(1, num_pages + 1) %}
+  <a href="?page={{ i }}">{{ i }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

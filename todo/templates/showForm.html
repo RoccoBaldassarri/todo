@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Form{% endblock %}
+{% block page_title %}Form{% endblock %}
+{% block content %}
+    <form action="/newTask" method="POST">
+        <label>Descrizione:</label><br>
+        <input type="text" name="description" required><br><br>
+
+        <label>Priorita:</label><br>
+        <input type="number" name="priority" required><br><br>
+
+        <label>Da completare entro:</label><br>
+        <input type="date" name="before_at" required><br><br>
+
+        <button type="submit">Invia</button>
+    </form>
+{% endblock %}
